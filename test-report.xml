@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testExecutions version="1">
+  <file path="C:\Users\josecorrea\Nueva carpeta (2)\react-test-jenkinsfile\src\__test__\date.test.js">
+    <testCase name="compareDate should return true if the second date is greater than the first date" duration="28"/>
+  </file>
+  <file path="C:\Users\josecorrea\Nueva carpeta (2)\react-test-jenkinsfile\src\__test__\util.test.js">
+    <testCase name="totalPrice should return 0 when no product is passed" duration="29"/>
+    <testCase name="totalPrice should return the total price of a single product" duration="2"/>
+    <testCase name="totalPrice should return the total price of multiple products" duration="1"/>
+  </file>
+  <file path="C:\Users\josecorrea\Nueva carpeta (2)\react-test-jenkinsfile\src\__test__\indexContext.test.js">
+    <testCase name="ShoppingCartProvider renders children and provides context values" duration="309"/>
+    <testCase name="ShoppingCartProvider updates context values correctly" duration="27"/>
+  </file>
+  <file path="C:\Users\josecorrea\Nueva carpeta (2)\react-test-jenkinsfile\src\__test__\indexOrdersCard.test.js">
+    <testCase name="OrdersCard renders with default props" duration="195"/>
+    <testCase name="OrdersCard renders with provided props" duration="24"/>
+  </file>
+  <file path="C:\Users\josecorrea\Nueva carpeta (2)\react-test-jenkinsfile\src\__test__\indexCard.test.js">
+    <testCase name="renders Card component" duration="386"/>
+    <testCase name="adds product to cart when clicking the PlusIcon" duration="65"/>
+  </file>
+</testExecutions>

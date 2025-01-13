@@ -1,0 +1,24 @@
+trigger:
+- master
+
+pool:
+  name: SonarAzure
+
+steps:
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'ServiceConnectSonarCloud'
+    organization: 'josecorreadevops'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'josecorreadevops_analisis-sonar'
+    cliProjectName: 'analisis-sonar'
+    cliSources: '.'
+
+- script: |
+     \ 
+      -D"sonar.organization=josecorreadevops" \
+      -D"sonar.projectKey=josecorreadevops_analisis-sonar" \
+      -D"sonar.sources=." \
+      -D"sonar.host.url=https://sonarcloud.io"
+  displayName: 'Run Sonar Scanner'
