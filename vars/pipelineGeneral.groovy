@@ -1,6 +1,3 @@
-def lb_buildartefacto
-def lb_analisissonarqube
-
 def call(Map config) {
     // Validación de parámetros
     if (!config.containsKey('nodeVersion')) {
@@ -22,14 +19,7 @@ def call(Map config) {
             stage('Preparar') {
                 steps {
                     script {
-                        // Obtener el directorio de trabajo
-                        def workspaceDir = pwd()
-
-                        // Cargar scripts dinámicamente desde la carpeta actual
-                        lb_buildartefacto = load("${workspaceDir}/src/org/devops/lb_buildartefacto.groovy")
-                        lb_analisissonarqube = load("${workspaceDir}/src/org/devops/lb_analisissonarqube.groovy")
-
-                        echo "Scripts cargados correctamente."
+                        echo "Preparación completada. Scripts disponibles globalmente."
                     }
                 }
             }
