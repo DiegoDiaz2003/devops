@@ -1,71 +1,59 @@
-def call(Map config) {
-    // Validación de parámetros
-    if (!config.containsKey('nodeVersion')) {
-        error "El parámetro 'nodeVersion' es obligatorio."
+pipeline {
+    agent any
+    tools {
+        nodejs 'nodejs' // Nombre configurado en Jenkins
     }
-    if (!config.containsKey('gitBranch')) {
-        error "El parámetro 'gitBranch' es obligatorio."
+    stages {
+        stage('Preparar') {
+            steps {
+                echo "Preparación completada. Scripts disponibles globalmente."
+            }
+        }
+        stage('Clonar repositorio') {
+            steps {
+                script {
+                    lb_buildartefacto.clone(
+                        url: 'https://github.com/DiegoDiaz2003/devops.git',
+                        branch: 'develop',
+                        credentialsId: 'GitHub-Diego'
+                    )
+                }
+            }
+        }
+        stage('Instalar dependencias') {
+            steps {
+                script {
+                    echo "Instalando dependencias..."
+                    lb_buildartefacto.install()
+                }
+            }
+        }
+        stage('Correr el test para análisis en SonarQube') {
+            steps {
+                script {
+                    echo "Ejecutando pruebas de cobertura..."
+                    lb_analisissonarqube.testCoverage()
+                }
+            }
+        }
+        stage('Análisis con SonarQube') {
+            steps {
+                script {
+                    echo "Ejecutando análisis con SonarQube..."
+                    lb_analisissonarqube.analisisSonar(env.GIT_BRANCH)
+                }
+            }
+        }
     }
-
-    pipeline {
-        agent any
-        tools {
-            nodejs 'nodejs' // Usa el nombre configurado en Jenkins
+    post {
+        always {
+            echo "Pipeline finalizado."
         }
-        environment {
-            GIT_BRANCH = "${config.gitBranch}" // Define la rama
+        success {
+            echo "Pipeline ejecutado correctamente."
         }
-        stages {
-            stage('Preparar') {
-                steps {
-                    script {
-                        echo "Preparación completada. Scripts disponibles globalmente."
-                    }
-                }
-            }
-            stage('Clonar repositorio') {
-                steps {
-                    script {
-                        echo "Clonando el repositorio..."
-                        lb_buildartefacto.clone()
-                    }
-                }
-            }
-            stage('Instalar dependencias') {
-                steps {
-                    script {
-                        echo "Instalando dependencias..."
-                        lb_buildartefacto.install()
-                    }
-                }
-            }
-            stage('Correr el test para análisis en SonarQube') {
-                steps {
-                    script {
-                        echo "Ejecutando pruebas de cobertura..."
-                        lb_analisissonarqube.testCoverage()
-                    }
-                }
-            }
-            stage('Análisis con SonarQube') {
-                steps {
-                    script {
-                        echo "Ejecutando análisis con SonarQube..."
-                        lb_analisissonarqube.analisisSonar(env.GIT_BRANCH)
-                    }
-                }
-            }
-        }
-        post {
-            always {
-                echo "Pipeline finalizado."
-            }
-            success {
-                echo "Pipeline ejecutado correctamente."
-            }
-            failure {
-                echo "El pipeline falló. Revisar los logs."
-            }
+        failure {
+            echo "El pipeline falló. Revisar los logs."
         }
     }
 }
