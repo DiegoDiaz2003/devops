@@ -1,2 +1,3 @@
 @Library('devops@develop') _
-pipelineGeneral(config: [nodeVersion: '14', gitBranch: 'develop'])
+pipelineGeneral(nodeVersion: '16.x', gitBranch: 'develop')
+
