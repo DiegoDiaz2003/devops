@@ -1,15 +1,11 @@
 def call(Map config) {
-    // Validación de parámetros 
+    // Validación de parámetros
     if (!config.containsKey('nodeVersion')) {
         error "El parámetro 'nodeVersion' es obligatorio."
     }
     if (!config.containsKey('gitBranch')) {
         error "El parámetro 'gitBranch' es obligatorio."
     }
-
-    // Cargar scripts dinámicamente desde la carpeta actual
-    def lb_buildartefacto = load("${WORKSPACE}/org/devops/lb_buildartefacto.groovy")
-    def lb_analisissonarqube = load("${WORKSPACE}/org/devops/lb_analisissonarqube.groovy")
 
     pipeline {
         agent any
@@ -20,6 +16,20 @@ def call(Map config) {
             GIT_BRANCH = "${config.gitBranch}" // Define la rama
         }
         stages {
+            stage('Preparar') {
+                steps {
+                    script {
+                        // Obtener el directorio de trabajo
+                        def workspaceDir = pwd()
+
+                        // Cargar scripts dinámicamente desde la carpeta actual
+                        def lb_buildartefacto = load("${workspaceDir}/org/devops/lb_buildartefacto.groovy")
+                        def lb_analisissonarqube = load("${workspaceDir}/org/devops/lb_analisissonarqube.groovy")
+
+                        echo "Scripts cargados correctamente."
+                    }
+                }
+            }
             stage('Clonar repositorio') {
                 steps {
                     script {
