@@ -23,8 +23,8 @@ def call(Map config) {
                         def workspaceDir = pwd()
 
                         // Cargar scripts dinámicamente desde la carpeta actual
-                        def lb_buildartefacto = load("${workspaceDir}src//org/devops/lb_buildartefacto.groovy")
-                        def lb_analisissonarqube = load("${workspaceDir}src/org/devops/lb_analisissonarqube.groovy")
+                        def lb_buildartefacto = load("${env.WORKSPACE}/src/org/devops/lb_buildartefacto.groovy")
+                        def lb_analisissonarqube = load("${workspaceDir}/src/org/devops/lb_analisissonarqube.groovy")
 
                         echo "Scripts cargados correctamente."
                     }
