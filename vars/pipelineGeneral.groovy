@@ -11,6 +11,7 @@ def call(Map config) {
         agent any
         tools {
             nodejs 'nodejs' // Usa el nombre configurado en Jenkins
+             sonarScanner 'sonar-scaner' 
         }
         environment {
             GIT_BRANCH = "${config.gitBranch}" // Define la rama
