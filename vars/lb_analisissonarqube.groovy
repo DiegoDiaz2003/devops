@@ -15,7 +15,7 @@ def analisisSonar(gitName) {
             ${scannerHome}/bin/sonar-scaner \
                 -Dsonar.projectKey=${gitName} \
                 -Dsonar.projectName=${gitName} \
-                -Dsonar.sources=src \ // Cambiado ${env.source} a una ruta fija (ajústalo según tu proyecto)
+                -Dsonar.sources=src \
                 -Dsonar.tests=src/__test__ \
                 -Dsonar.exclusions=**/*.test.js \
                 -Dsonar.testExecutionReportPaths=./test-report.xml \
