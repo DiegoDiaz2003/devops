@@ -14,10 +14,10 @@ def call(Map config) {
     pipeline {
         agent any
         tools {
-            nodejs config.nodeVersion // Configuración dinámica del entorno NodeJS
+            nodejs 'nodejs' // Usa el nombre configurado en Jenkins
         }
         environment {
-            GIT_BRANCH = config.gitBranch // Configuración dinámica del branch
+            GIT_BRANCH = "${config.gitBranch}" // Define la rama
         }
         stages {
             stage('Clonar repositorio') {
