@@ -1,2 +1,2 @@
-@Library('devops@feature') _
-pipelineGeneral(config: [nodeVersion: '14', gitBranch: 'feature'])
+@Library('devops@develop') _
+pipelineGeneral(config: [nodeVersion: '14', gitBranch: 'develop'])
