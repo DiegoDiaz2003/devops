@@ -1,8 +1,5 @@
-import org.devops.lb_buildartefacto 
-import org.devops.lb_analisissonarqube 
-
 def call(Map config) {
-    // Validación de parámetros obligatorios
+    // Validación de parámetros 
     if (!config.containsKey('nodeVersion')) {
         error "El parámetro 'nodeVersion' es obligatorio."
     }
@@ -10,9 +7,9 @@ def call(Map config) {
         error "El parámetro 'gitBranch' es obligatorio."
     }
 
-    // Instancia de librerías compartidas
-    def lb_buildartefacto = new lb_buildartefacto()
-    def lb_analisissonarqube = new lb_analisissonarqube()
+    // Cargar scripts dinámicamente desde la carpeta actual
+    def lb_buildartefacto = load("${WORKSPACE}/org/devops/lb_buildartefacto.groovy")
+    def lb_analisissonarqube = load("${WORKSPACE}/org/devops/lb_analisissonarqube.groovy")
 
     pipeline {
         agent any
@@ -28,6 +25,14 @@ def call(Map config) {
                     script {
                         echo "Clonando el repositorio..."
                         lb_buildartefacto.clone()
+                    }
+                }
+            }
+            stage('Instalar dependencias') {
+                steps {
+                    script {
+                        echo "Instalando dependencias..."
+                        lb_buildartefacto.install()
                     }
                 }
             }
