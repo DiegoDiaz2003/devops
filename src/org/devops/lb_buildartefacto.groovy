@@ -1,9 +1,11 @@
-package org.devops
+@Library('devops') _
 
-def clone() {
-    git branch: "${env.nameBranch}", url: "${env.UrlGitHub}"
-}
-
-def install() {
-    sh 'npm install'
+node {
+    stage('Preparar') {
+        script {
+            def lb_buildartefacto = new org.devops.lb_buildartefacto()
+            lb_buildartefacto.clone()
+            lb_buildartefacto.install()
+        }
+    }
 }
