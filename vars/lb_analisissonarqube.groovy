@@ -1,16 +1,29 @@
 package org.devops
 
-def testCoverage(){ 
+def testCoverage() { 
     sh 'npm test'
 }
 
-def analisisSonar(gitName){
-    def scannerHome = tool 'sonar-scaner'
+def analisisSonar(gitName) {
+    // Asegúrate de que el nombre del scanner coincida con el configurado en Jenkins
+    def scannerHome = tool 'sonar-scaner' // Cambiado de 'sonar-scaner' a 'sonar-scanner'
+    
     if (scannerHome) {
-        withSonarQubeEnv ( 'sonar-scaner ' ){
-            sh "${scannerHome}/bin/sonar-scaner -Dsonar.projectKey=${gitName} -Dsonar.projectName=${gitName} -Dsonar.sources=${env.source} -Dsonar.tests=src/_test__ -Dsonar.exclusions='**/*.test.js' -Dsonar.testExecutionReportPaths=./test-report.xml -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info"
+        // Asegúrate de que el nombre del servidor coincida con el configurado en Jenkins
+        withSonarQubeEnv('ServerSonarqube') { // Cambiado de 'sonar-scaner ' a 'ServerSonarqube'
+            sh """
+            ${scannerHome}/bin/sonar-scaner \
+                -Dsonar.projectKey=${gitName} \
+                -Dsonar.projectName=${gitName} \
+                -Dsonar.sources=src \ // Cambiado ${env.source} a una ruta fija (ajústalo según tu proyecto)
+                -Dsonar.tests=src/__test__ \
+                -Dsonar.exclusions=**/*.test.js \
+                -Dsonar.testExecutionReportPaths=./test-report.xml \
+                -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
+            """
         }
-    } else{
+    } else {
         error 'SonarQube Scanner not found'
     }
 }
+
