@@ -5,14 +5,12 @@ def testCoverage() {
 }
 
 def analisisSonar(gitName) {
-    // Asegúrate de que el nombre del scanner coincida con el configurado en Jenkins
-    def scannerHome = tool 'sonar-scaner' // Cambiado de 'sonar-scaner' a 'sonar-scanner'
+    def scannerHome = tool 'sonar-scaner' 
     
     if (scannerHome) {
-        // Asegúrate de que el nombre del servidor coincida con el configurado en Jenkins
-        withSonarQubeEnv('ServerSonarqube') { // Cambiado de 'sonar-scaner ' a 'ServerSonarqube'
+        withSonarQubeEnv('ServerSonarqube') { 
             sh """
-            ${scannerHome}/bin/sonar-scaner \
+            ${scannerHome}/bin/sonar-scanner \
                 -Dsonar.projectKey=${gitName} \
                 -Dsonar.projectName=${gitName} \
                 -Dsonar.sources=src \
@@ -26,4 +24,3 @@ def analisisSonar(gitName) {
         error 'SonarQube Scanner not found'
     }
 }
-
