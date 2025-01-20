@@ -36,12 +36,13 @@ def call(Map args) {
                     }
                 }
             }
-       stage('OWASP Scan') {
-    steps {
-        script {
-            if (fileExists('lb_owasp.groovy')) {
-                load 'lb_owasp.groovy'
-                AnalisisOwasp("devops")
+      stage('OWASP Scan') {
+            steps {
+                script {
+            // Verifica si el archivo existe en la carpeta vars
+                 if (fileExists('vars/lb_owasp.groovy')) {
+                  load 'vars/lb_owasp.groovy'  // Carga el script desde la ruta correcta
+                    AnalisisOwasp("devops")      // Llama a la función
             } else {
                 error "Archivo lb_owasp.groovy no encontrado"
             }
