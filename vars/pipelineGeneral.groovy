@@ -1,11 +1,12 @@
-def call() {
+def call(Map args) {
     pipeline {
         agent any
         tools {
-            nodejs 'nodejs'
+            nodejs "${args.nodeVersion ?: 'nodejs'}" // Usa el valor pasado o un valor por defecto
         }
         environment {
             projectName = env.GIT_URL.tokenize('/').last().replace('.git', '')
+            gitBranch = "${args.gitBranch ?: 'main'}" // Usa el valor pasado o un valor por defecto
         }
         stages {
             stage('Build Docker Image') {
@@ -37,6 +38,5 @@ def call() {
                 }
             }
         }
-
     }
 }
