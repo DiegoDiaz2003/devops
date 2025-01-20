@@ -38,18 +38,19 @@ def call(Map args) {
             }
 
     
-            
- stage('OWASP Scan') {
+    stage('OWASP Scan') {
                 steps {
                     script {
-                        echo "Ejecutando AnalisisOwasp..."
-                        AnalisisOwasp("devops")
+                        echo "Ejecutando análisis OWASP manualmente..."
+                        sh """
+                        docker run --rm -v ProjectOwasp:/zap/wrk/:rw \
+                        --user root --network=jenkinsonar_network_containers \
+                        edansama96/zap2docker-stable:latest \
+                        zap-full-scan.py -t ${env.dominio} -r devops.html -I
+                        """
                     }
                 }
             }
-
-
-
 
 
         }
