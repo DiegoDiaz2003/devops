@@ -28,7 +28,18 @@ def call(Map args) {
                     }
                 }
             }
-            stage('OWASP Scan') {
+            stage('Deploy Docker Container') {
+                steps {
+                    script {
+                        echo "Ejecutando lb_deploydocker para ${env.projectName}"
+                        lb_deploydocker.despliegueContenedor('devops', 'devops-container', 5174)
+                    }
+                }
+            }
+
+    
+            
+ stage('OWASP Scan') {
     steps {
         script {
             if (fileExists('vars/lb_owasp.groovy')) {
@@ -43,21 +54,6 @@ def call(Map args) {
     }
 }
 
-
-
-  stage('OWASP Scan') {
-    steps {
-        script {
-           if (fileExists('vars/lb_owasp.groovy')) {
-    load 'vars/lb_owasp.groovy'
-    AnalisisOwasp("devops")
-} else {
-    error "Archivo lb_owasp.groovy no encontrado"
-}
-
-        }
-    }
-}
 
 
 
