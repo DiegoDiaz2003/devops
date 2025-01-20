@@ -1,72 +1,45 @@
-def call(Map config) {
-    // Validación de parámetros
-    if (!config.containsKey('nodeVersion')) {
-        error "El parámetro 'nodeVersion' es obligatorio."
-    }
-    if (!config.containsKey('gitBranch')) {
-        error "El parámetro 'gitBranch' es obligatorio."
-    }
-
+def call() {
     pipeline {
         agent any
         tools {
-            nodejs 'nodejs' // Usa el nombre configurado en Jenkins
-             
+            nodejs 'NodeJS'
         }
         environment {
-            GIT_BRANCH = "${config.gitBranch}" // Define la rama
+            projectName = env.GIT_URL.tokenize('/').last().replace('.git', '')
         }
         stages {
-            stage('Preparar') {
+            stage('Build Docker Image') {
                 steps {
                     script {
-                        echo "Preparación completada. Scripts disponibles globalmente."
+                        lb_buildimagen("${env.projectName}")
                     }
                 }
             }
-            stage('Clonar repositorio') {
+            stage('Publish to Docker Hub') {
                 steps {
                     script {
-                        echo "Clonando el repositorio..."
-                        lb_buildartefacto.clone()
+                        lb_publicardockerhub("${env.projectName}", "your-dockerhub-username")
                     }
                 }
             }
-            stage('Instalar dependencias') {
+            stage('Deploy Docker Container') {
                 steps {
                     script {
-                        echo "Instalando dependencias..."
-                        lb_buildartefacto.install()
+                        lb_deploydocker("${env.projectName}", "${env.projectName}-container", 5174)
                     }
                 }
             }
-            stage('Correr el test para análisis en SonarQube') {
+            stage('OWASP Scan') {
                 steps {
                     script {
-                        echo "Ejecutando pruebas de cobertura..."
-                        lb_analisissonarqube.testCoverage()
-                    }
-                }
-            }
-            stage('Análisis con SonarQube') {
-                steps {
-                    script {
-                        echo "Ejecutando análisis con SonarQube..."
-                        lb_analisissonarqube.analisisSonar(env.GIT_BRANCH)
+                        lb_owasp("http://localhost:5174")
                     }
                 }
             }
         }
-        post {
-            always {
-                echo "Pipeline finalizado."
-            }
-            success {
-                echo "Pipeline ejecutado correctamente."
-            }
-            failure {
-                echo "El pipeline falló. Revisar los logs."
-            }
+        triggers {
+            // Uncomment the following line to enable SCM polling
+            // pollSCM('H/5 * * * *')
         }
     }
 }
