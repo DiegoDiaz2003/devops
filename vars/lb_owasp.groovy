@@ -1,8 +1,12 @@
-def call(String containerName) {
+package org.devops
+
+def AnalisisOwasp(projectGitName) {
     sh """
     docker run --rm -v ProjectOwasp:/zap/wrk/:rw \
-    --user root --network=jenkinsonar_network_containers \
+    --user root --network=${env.NameNetwork} \
     -t edansama96/zap2docker-stable:latest \
-    zap-full-scan.py -t http://${containerName}:5174 -r Projectowasp.html -I
+    zap-full-scan.py \
+    -t ${env.dominio} \
+    -r ProjectOwasp.html -I
     """
 }

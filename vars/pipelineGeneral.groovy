@@ -37,12 +37,13 @@ def call(Map args) {
                 }
             }
             stage('OWASP Scan') {
-                steps {
-                    script {
-                         lb_owasp("devops")
+            steps {
+                script {
+            AnalisisOwasp("devops")
                     }
-                }
-            }
+                 }
+             }
+
         }
     }
 }
