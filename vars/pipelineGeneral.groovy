@@ -7,7 +7,7 @@ def call(Map args) {
 
         environment {
             projectName = env.GIT_URL.tokenize('/').last().replace('.git', '')
-            gitBranch = "${args.gitBranch ?: 'main'}" // Usa el valor pasado o un valor por defecto
+            gitBranch = "${args.gitBranch ?: 'develop'}" // Usa el valor pasado o un valor por defecto
             DOCKER_HOST = 'tcp://host.docker.internal:2375' // Configura la conexión al daemon de Docker
         }
 
@@ -21,13 +21,13 @@ def call(Map args) {
                 }
             }
             stage('Publish to Docker Hub') {
-            steps {
-                script {
-                    echo "Ejecutando lb_publicardockerhub para ${env.projectName}"
-                    lb_publicardockerhub("${env.projectName}".toString(), "diegodiaz12".toString())
+                steps {
+                    script {
+                        echo "Ejecutando lb_publicardockerhub para ${env.projectName}"
+                        lb_publicardockerhub("${env.projectName}", "diegodiaz12")
+                    }
                 }
             }
-        }
             stage('Deploy Docker Container') {
                 steps {
                     script {
