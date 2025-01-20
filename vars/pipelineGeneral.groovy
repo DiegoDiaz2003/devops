@@ -2,8 +2,9 @@ def call(Map args) {
     pipeline {
         agent any
         tools {
-            nodejs "${args.nodeVersion ?: 'nodejs'}" // Usa el valor pasado o un valor por defecto
+         nodejs 'nodejs' 
         }
+
         environment {
             projectName = env.GIT_URL.tokenize('/').last().replace('.git', '')
             gitBranch = "${args.gitBranch ?: 'main'}" // Usa el valor pasado o un valor por defecto
