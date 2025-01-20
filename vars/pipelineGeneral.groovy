@@ -40,20 +40,12 @@ def call(Map args) {
     
             
  stage('OWASP Scan') {
-    steps {
-        script {
-            if (fileExists('vars/lb_owasp.groovy')) {
-                echo "Contenido de lb_owasp.groovy:"
-                sh "cat vars/lb_owasp.groovy"
-                load 'vars/lb_owasp.groovy'
-                AnalisisOwasp("devops")
-            } else {
-                error "Archivo lb_owasp.groovy no encontrado"
+            steps {
+                script {
+                    AnalisisOwasp("devops")
+                }
             }
         }
-    }
-}
-
 
 
 
