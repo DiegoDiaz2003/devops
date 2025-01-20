@@ -1,5 +1,3 @@
-package org.devops
-
 def AnalisisOwasp(projectGitName) {
     sh """
     docker run --rm -v ProjectOwasp:/zap/wrk/:rw \
@@ -7,6 +5,6 @@ def AnalisisOwasp(projectGitName) {
     -t edansama96/zap2docker-stable:latest \
     zap-full-scan.py \
     -t ${env.dominio} \
-    -r ProjectOwasp.html -I
+    -r ${projectGitName}.html -I
     """
 }
