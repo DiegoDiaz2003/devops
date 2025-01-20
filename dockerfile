@@ -10,8 +10,8 @@ RUN apt-get update && \
     gnupg2 \
     lsb-release \
     software-properties-common && \
-    curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add && \
-    echo "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" > /etc/apt/source && \
+    curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - && \
+    echo "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" > /etc/apt/sources.list && \
     apt-get update && \
     apt-get install -y docker-ce-cli maven && \
     groupadd docker && \
