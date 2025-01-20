@@ -8,7 +8,7 @@ def call(Map args) {
         environment {
             projectName = env.GIT_URL.tokenize('/').last().replace('.git', '')
             gitBranch = "${args.gitBranch ?: 'main'}" // Usa el valor pasado o un valor por defecto
-            DOCKER_HOST = '192.168.1.102:2375' // Configura la conexión al daemon de Docker
+            DOCKER_HOST = 'tcp://host.docker.internal:2375' // Configura la conexión al daemon de Docker
         }
 
         stages {
