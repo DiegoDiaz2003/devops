@@ -32,7 +32,7 @@ def call(Map args) {
                 steps {
                     script {
                         echo "Ejecutando lb_deploydocker para ${env.projectName}"
-                        lb_deploydocker("${env.projectName}", "${env.projectName}-container", 5174)
+                        lb_deploydocker.despliegueContenedor('devops', 'devops-container', 5174)
                     }
                 }
             }
