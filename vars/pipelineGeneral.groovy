@@ -1,3 +1,4 @@
+@Library('devops') _
 def call(Map args) {
     pipeline {
         agent any
@@ -39,7 +40,7 @@ def call(Map args) {
             stage('OWASP Scan') {
                 steps {
                     script {
-                        AnalisisOwasp("devops")
+                            org.devops.AnalisisOwasp("devops")
                     }
                  }
              }
