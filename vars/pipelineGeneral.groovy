@@ -39,8 +39,8 @@ def call(Map args) {
             stage('OWASP Scan') {
                 steps {
                     script {
-                        echo "Ejecutando lb_owasp para ${env.projectName}"
-                        lb_owasp("http://localhost:5174")
+                          def owasp = new org.devops.lb_owasp()
+                        owasp.call("http://localhost:5174") 
                     }
                 }
             }
