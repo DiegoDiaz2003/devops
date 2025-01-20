@@ -37,9 +37,6 @@ def call() {
                 }
             }
         }
-        triggers {
-        scm('H/5 * * * *') // Verifica cambios cada 5 minutos
-        }
 
     }
 }
