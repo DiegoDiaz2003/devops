@@ -9,9 +9,10 @@ def despliegueContenedor(String projectGitName, String containerName, int port) 
     sh "docker pull diegodiaz12/${projectGitName}"
 
     // Ejecutar el contenedor
-    sh """
-    docker run -d --name ${containerName} \
-        --network=${env.NameNetwork} -p ${port}:${port} \
-        --user root diegodiaz12/${projectGitName}
-    """
+  sh """
+  docker run -d --name ${projectGitName} \
+    --network=jenkinsonar_network_containers -p 5174:5174 \
+    --user root diegodiaz12/${projectGitName}
+  """
+
 }
