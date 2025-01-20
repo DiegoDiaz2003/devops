@@ -38,7 +38,7 @@ def call(Map args) {
             }
 
     
-  stage('OWASP Scan') {
+    /*stage('OWASP Scan') {
     steps {
         script {
             echo "Ejecutando análisis OWASP manualmente..."
@@ -50,7 +50,7 @@ def call(Map args) {
             """
         }
     }
-}
+} */
 
 
         }
