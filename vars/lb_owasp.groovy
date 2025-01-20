@@ -1,4 +1,5 @@
-def AnalisisOwasp(projectGitName) {
+// lb_owasp.groovy
+def call(projectGitName) {
     sh """
     docker run --rm -v ProjectOwasp:/zap/wrk/:rw \
     --user root --network=${env.NameNetwork} \

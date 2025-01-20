@@ -9,6 +9,8 @@ def call(Map args) {
             projectName = env.GIT_URL.tokenize('/').last().replace('.git', '')
             gitBranch = "${args.gitBranch ?: 'develop'}" // Usa el valor pasado o un valor por defecto
             DOCKER_HOST = 'tcp://host.docker.internal:2375' // Configura la conexión al daemon de Docker
+            NameNetwork = 'jenkinsonar_network_containers' // Nombre del network
+            dominio = 'http://localhost:5174' // Dominio para OWASP scan
         }
 
         stages {
@@ -36,21 +38,14 @@ def call(Map args) {
                     }
                 }
             }
-
-    
-            
- stage('OWASP Scan') {
-            steps {
-                script {
-                    AnalisisOwasp("devops")
+            stage('OWASP Scan') {
+                steps {
+                    script {
+                        echo "Ejecutando AnalisisOwasp..."
+                        lb_owasp("devops")
+                    }
                 }
             }
-        }
-
-
-
-
-
         }
     }
 }
