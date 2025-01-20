@@ -1,32 +1,22 @@
-# Etapa 1: Construcción de la aplicación con Node.js
-FROM node:18 AS build
+FROM jenkins/jenkins:lts
+USER root
 
-# Establecer el directorio de trabajo dentro del contenedor
-WORKDIR /app
+# Instalar dependencias necesarias
+RUN apt-get update && \
+    apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg2 \
+    lsb-release \
+    software-properties-common && \
+    curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add && \
+    echo "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" > /etc/apt/source && \
+    apt-get update && \
+    apt-get install -y docker-ce-cli maven && \
+    groupadd docker && \
+    usermod -aG docker jenkins && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# Copiar los archivos de dependencias
-COPY package*.json ./
-
-# Instalar las dependencias
-RUN npm install
-
-# Copiar el resto del código fuente al contenedor
-COPY . .
-
-# Construir la aplicación
-RUN npm run build
-
-# Etapa 2: Servir los archivos construidos con Nginx
-FROM nginx:alpine
-
-# Configurar Nginx con un archivo personalizado
-ADD ./config/nginx.conf /etc/nginx/conf.d/default.conf
-
-# Copiar los archivos construidos en la etapa anterior al directorio de Nginx
-COPY --from=build /app/dist /var/www/app/
-
-# Exponer el puerto 5174
-EXPOSE 5174
-
-# Iniciar Nginx en modo "foreground"
-CMD ["nginx", "-g", "daemon off;"]
+USER jenkins
