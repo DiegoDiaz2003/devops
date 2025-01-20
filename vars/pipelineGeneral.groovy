@@ -38,19 +38,19 @@ def call(Map args) {
             }
 
     
-    stage('OWASP Scan') {
-                steps {
-                    script {
-                        echo "Ejecutando análisis OWASP manualmente..."
-                        sh """
-                        docker run --rm -v ProjectOwasp:/zap/wrk/:rw \
-                        --user root --network=jenkinsonar_network_containers \
-                        edansama96/zap2docker-stable:latest \
-                        zap-full-scan.py -t ${env.dominio} -r devops.html -I
-                        """
-                    }
-                }
-            }
+  stage('OWASP Scan') {
+    steps {
+        script {
+            echo "Ejecutando análisis OWASP manualmente..."
+            sh """
+            docker run --rm -v ProjectOwasp:/zap/wrk/:rw \
+            --user root --network=jenkinsonar_network_containers \
+            edansama96/zap2docker-stable:latest \
+            zap-full-scan.py -t http://192.168.1.102:5174 -r devops.html -I
+            """
+        }
+    }
+}
 
 
         }
