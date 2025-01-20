@@ -2,7 +2,7 @@ def call(String url) {
     sh """
     docker run --rm -v ProjectOwasp:/zap/wrk/:rw \
         --user root --network=${env.NameNetwork} \
-        -t owasp/zap2docker-stable \
+        -t edansama96/zap2docker-stable:latest \
         zap-full-scan.py \
         -t ${url} \
         -r Projectowasp.html -I
