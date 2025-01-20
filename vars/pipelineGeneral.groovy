@@ -2,7 +2,7 @@ def call() {
     pipeline {
         agent any
         tools {
-            nodejs 'NodeJS'
+            nodejs 'nodejs'
         }
         environment {
             projectName = env.GIT_URL.tokenize('/').last().replace('.git', '')
