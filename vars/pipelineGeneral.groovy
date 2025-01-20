@@ -38,8 +38,8 @@ def call() {
             }
         }
         triggers {
-            // Uncomment the following line to enable SCM polling
-            // pollSCM('H/5 * * * *')
+        scm('H/5 * * * *') // Verifica cambios cada 5 minutos
         }
+
     }
 }
