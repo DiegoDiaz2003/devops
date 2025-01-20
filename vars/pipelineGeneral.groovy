@@ -21,13 +21,13 @@ def call(Map args) {
                 }
             }
             stage('Publish to Docker Hub') {
-                steps {
-                    script {
-                        echo "Ejecutando lb_publicardockerhub para ${env.projectName}"
-                        lb_publicardockerhub("${env.projectName}", "diegodiaz12")
-                    }
+            steps {
+                script {
+                    echo "Ejecutando lb_publicardockerhub para ${env.projectName}"
+                    lb_publicardockerhub("${env.projectName}".toString(), "diegodiaz12".toString())
                 }
             }
+        }
             stage('Deploy Docker Container') {
                 steps {
                     script {
