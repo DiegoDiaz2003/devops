@@ -10,7 +10,7 @@ def call(Map args) {
             gitBranch = "${args.gitBranch ?: 'develop'}" // Usa el valor pasado o un valor por defecto
             DOCKER_HOST = 'tcp://host.docker.internal:2375' // Configura la conexión al daemon de Docker
             NameNetwork = 'jenkinsonar_network_containers' // Nombre del network
-            dominio = 'http://localhost:5174' // Dominio para OWASP scan
+            dominio = 'http://devops:5174' // Cambia localhost por el nombre del contenedor
         }
 
         stages {
@@ -38,11 +38,23 @@ def call(Map args) {
                     }
                 }
             }
+            stage('Wait for Application') {
+                steps {
+                    script {
+                        sh """
+                        until curl -s http://devops:5174; do
+                            echo "Waiting for application to be ready..."
+                            sleep 5
+                        done
+                        """
+                    }
+                }
+            }
             stage('OWASP Scan') {
                 steps {
                     script {
                         echo "Ejecutando AnalisisOwasp..."
-                        lb_owasp("devops")
+                        AnalisisOwasp("devops")
                     }
                 }
             }
