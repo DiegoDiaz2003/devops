@@ -39,8 +39,7 @@ def call(Map args) {
             stage('OWASP Scan') {
                 steps {
                     script {
-                          def owasp = new org.devops.lb_owasp()
-                        owasp.call("http://localhost:5174") 
+                        lb_owasp("http://localhost:5174") 
                     }
                 }
             }
