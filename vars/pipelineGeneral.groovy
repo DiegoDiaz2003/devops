@@ -1,5 +1,5 @@
 def call(Map config) {
-    // Validación de parámetros 
+    // Validación de parámetros
     if (!config.containsKey('nodeVersion')) {
         error "El parámetro 'nodeVersion' es obligatorio."
     }
@@ -7,19 +7,23 @@ def call(Map config) {
         error "El parámetro 'gitBranch' es obligatorio."
     }
 
-    // Cargar scripts dinámicamente desde la carpeta actual
-    def lb_buildartefacto = load("${WORKSPACE}/org/devops/lb_buildartefacto.groovy")
-    def lb_analisissonarqube = load("${WORKSPACE}/org/devops/lb_analisissonarqube.groovy")
-
     pipeline {
         agent any
         tools {
-            nodejs config.nodeVersion // Configuración dinámica del entorno NodeJS
+            nodejs 'nodejs' // Usa el nombre configurado en Jenkins
+             
         }
         environment {
-            GIT_BRANCH = config.gitBranch // Configuración dinámica del branch
+            GIT_BRANCH = "${config.gitBranch}" // Define la rama
         }
         stages {
+            stage('Preparar') {
+                steps {
+                    script {
+                        echo "Preparación completada. Scripts disponibles globalmente."
+                    }
+                }
+            }
             stage('Clonar repositorio') {
                 steps {
                     script {
