@@ -15,6 +15,7 @@ def call(Map args) {
             stage('Build Docker Image') {
                 steps {
                     script {
+                        echo "Ejecutando lb_buildimagen para ${env.projectName}"
                         lb_buildimagen("${env.projectName}")
                     }
                 }
@@ -22,13 +23,15 @@ def call(Map args) {
             stage('Publish to Docker Hub') {
                 steps {
                     script {
-                        lb_publicardockerhub("${env.projectName}", "your-dockerhub-username")
+                        echo "Ejecutando lb_publicardockerhub para ${env.projectName}"
+                        lb_publicardockerhub("${env.projectName}", "diegodiaz12")
                     }
                 }
             }
             stage('Deploy Docker Container') {
                 steps {
                     script {
+                        echo "Ejecutando lb_deploydocker para ${env.projectName}"
                         lb_deploydocker("${env.projectName}", "${env.projectName}-container", 5174)
                     }
                 }
@@ -36,6 +39,7 @@ def call(Map args) {
             stage('OWASP Scan') {
                 steps {
                     script {
+                        echo "Ejecutando lb_owasp para ${env.projectName}"
                         lb_owasp("http://localhost:5174")
                     }
                 }
